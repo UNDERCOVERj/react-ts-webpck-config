@@ -1,10 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const outputLib = path.resolve(__dirname, './dist');
-const entryLib = path.resolve(__dirname, './src');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const outputLib = path.resolve(__dirname, './dist');
+const entryLib = path.resolve(__dirname, './src');
 
 module.exports = {
     entry: {
@@ -21,6 +21,7 @@ module.exports = {
                 test: /\.tsx$/,
                 loader: 'ts-loader',
                 exclude: /node_modules/,
+                include: entryLib
                 // options: {
                 //     transpileOnly: true
                 // }
@@ -36,7 +37,6 @@ module.exports = {
                     'postcss-loader'
                 ]
             }
-
         ]
     },
     resolve: {
