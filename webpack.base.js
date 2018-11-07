@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const outputLib = path.resolve(__dirname, './dist');
 const entryLib = path.resolve(__dirname, './src');
+const isDev = path.basename(require.main.filename) === 'webpack-dev-server.js';
 
 module.exports = {
     entry: {
@@ -30,8 +31,8 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    // 'style-loader',
+                    // css热更新问题
+                    isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     'sass-loader',
                     'postcss-loader'
@@ -88,6 +89,15 @@ module.exports = {
         // })
     ],
     optimization: {
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                vendor: {
+                    test: /node_modules\//,
+                    name: 'vendor'
+                }
+            }
+        },
         minimizer: [
             new OptimizeCssAssetsPlugin({
                 assetNameRegExp: /\.css\.*(?!.*map)/g,

@@ -5,8 +5,11 @@ const common = require('./webpack.base.js');
 
 module.exports = merge(common, {
     mode: 'development',
-    devtool: 'eval-source-map',
+    devtool: 'inline-source-map',
     watch: true,
+    watchOptions: {
+        ignored: /node_modules/
+    },
     output: {
         filename: '[name].[hash:8].js'
     },
